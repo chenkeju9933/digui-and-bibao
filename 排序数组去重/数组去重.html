@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数组去重</title>
+</head>
+<body>
+    <h2>数组去重</h2>
+    <hr>
+    <p>arr1 = [1,1,2,3,54,5,7,8,7,453,54,4,3,8]</p>
+    <span></span>
+    <script>
+        var arr1 = [1,1,2,3,54,5,7,8,7,453,54,4,3,8]
+        function arrdet (a) {
+            for (let i = 0; i < a.length; i++) {
+                for (let j = i+1;j < a.length; j++) {
+                    if(a[i]==a[j]){
+                        a.splice(j,1)
+                        j--
+                    }
+                }
+                
+            }
+        }
+        arrdet(arr1)
+        
+        document.querySelectorAll('span')[0].innerText = arr1
+    </script>
+</body>
+</html>

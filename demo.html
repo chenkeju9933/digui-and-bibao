@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .contianer {
+            width: 300px;
+            height: 200px;
+            border: solid 1px #ccc;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .div1 {
+            flex-grow: 1;
+            background-color: #ffffff;
+        }
+
+        .div2 {
+            flex-grow: 1;
+            background-color: #efefef;
+        }
+
+        .div3 {
+            flex-grow: 1;
+            background-color: #fffffff8;
+        }
+
+        .contianer1 {
+            width: 300px;
+            height: 200px;
+            border: solid 1px #ccc;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .div4 {
+            flex-grow: 1;
+            background-color: aqua;
+        }
+
+        .div5 {
+            flex-grow: 2;
+            background-color: black;
+        }
+
+        .div6 {
+            flex-grow: 0;
+            background-color: chocolate;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mypic">onloading……</div>
+    <div class="contianer">
+        <div class="div1"></div>
+        <div class="div2"></div>
+        <div class="div3"></div>
+    </div>
+    <div class="contianer1">
+        <div class="div4"></div>
+        <div class="div5"></div>
+        <div class="div6"></div>
+    </div>
+    <script>
+        //  一、数组打乱
+        var arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        arr.sort(function (x, y) {
+            if (x % 2 == 0) return 1;
+            if (x % 2 != 0) return -1;
+        });
+        var arr1 = arr;
+        console.log(arr1);  // sort方法  奇数先输出  偶数后输出
+        var arr2 = arr1.reverse();
+        console.log(arr2);  // 倒叙输出
+        // -----------------------------------------
+        // 二、有5张图片pic1,pic2,pic3,pic4,pic5，用代码实现以下相关逻辑：
+        //1、  一次加载一张图片，加载完后再加载下一张，直至5张全部加载完成后输出加载完成
+        //2、  直接加载5张图片，直至5张全部加载完成后输出加载完成
+        console.log("这道题我贴一段我之前项目的代码（问题是异步请求 返回顺序不是自己想要的）， 用promise.all 规定返回顺序" + "希望原理类似");
+        /*
+        getInfo(item, index) {
+            return new Promise((resolve, reject) => {
+                wx.request({
+                    url: app.config.imgBase + item,
+                    method: 'GET',
+                    success(resdata) {
+                        resolve(resdata.data);
+                    }
+                })
+            })
+        },
+        let promises = arr.map((item, index) => {         
+          return that.getInfo(item, index);
+        })
+        Promise.all(promises).then(resdata => {
+          //console.log(resdata);
+          for (let j = 0; j < resdata.length; j++) {
+            var obj = {};
+            obj.CPMC = resdata[j].CPMC;
+            obj.CSJ = resdata[j].CSJ;
+            obj.KW = resdata[j].KW;
+            obj.CPTB = resdata[j].CPTB;
+            obj.score = res.data[j].score;
+            obj.CID = res.data[j].CID;
+            obj.kitchenPrice = res.data[j].kitchenPrice.toFixed(1);
+            //console.log(obj, j);
+            shops.push(obj);
+            //console.log(shops);
+            resdata.data = obj;
+            //console.log(obj);
+            //console.log(resdata.data)
+            // 判断售罄
+            for (let k = 0; k < that.data.sqshop.length; k++) {
+              if (shops[j].CID == that.data.sqshop[k].foodid) {
+                shops[j]['remain_num'] = 0;
+              }
+            }
+            var result = shops;
+            if (that.data.pageIndex > 1) {
+              result = that.data.shops.concat(resdata.data);
+            }
+            that.setData({
+              shops: result
+            });
+          }
+        }).catch(err => {}) */
+        // -----------------------------------------
+        // 一、编写一个javascript函数parseQueryString,它的用途是把URL参数解析为一个对象。
+        function parseQueryString(argu) {
+            var str = argu.split('?')[1];  //分割 URL 取出？号 之后的（参数部分）
+            var result = {};              //创建空对象
+            var temp = str.split('&');  // 分割&  取出所有的键值对 下面for循环 temp
+            console.log(temp);
+            for (let i = 0; i < temp.length; i++) {
+                let temp2 = temp[i].split('=');  // 每一个key value  key是=前面的  value是=后面的
+                console.log(temp2);
+                result[temp2[0]] = temp2[1];   // result 的每一个key 是temp2 下标为0的元素 --- value 是下标为1的元素 
+            }
+            return result;  //  return出去
+        }
+        var url = "https://search.bilibili.com/all?keyword=%E8%90%8C%E9%B8%A1%E5%B0%8F%E9%98%9F&from_source=nav_search&spm_id_from=333.788.b_696e7465726e6174696f6e616c486561646572.15";
+        var obj = parseQueryString(url);
+        console.log(obj);
+        // -----------------------------------------
+        // 二、  输出889   作用域判断  say函数 里面 alert的 num 是+1之后的    分析错误请见谅
+        function say() {
+            var num = 888;
+            var sayAlert = function () { alert(num) };
+            num++;
+            return sayAlert;
+        }
+        var sayAlert = say();
+        sayAlert()
+
+        // -----------------------------------------
+        // 三、判断一个字符串中出现次数最多的字符，统计这个次数
+        var str = 'asdfssaaasasasasaa';
+        var json = {};
+        for (var i = 0; i < str.length; i++) {
+            if (!json[str.charAt(i)]) {
+                json[str.charAt(i)] = 1;
+            } else {
+                json[str.charAt(i)]++;
+            }
+        };
+        var iMax = 0;
+        var iIndex = '';
+        for (var i in json) {
+            if (json[i] > iMax) {
+                iMax = json[i];
+                iIndex = i;
+            }
+        }
+        console.log('出现次数最多的是:' + iIndex + '出现' + iMax + '次');
+        // -----------------------------------------
+        // 四、  css样式（主流浏览器）  
+        // 1.  实现3个子元素（div1， div2， div3）在contianer容器内等宽分布
+        // 2.  左右布局，div1定宽200px，div2自适应撑满contianer容器
+        console.log("flex布局。css这些我比较熟练了 给设计图 有很多种办法做出来")
+        // 兴趣题
+        // 一
+        console.log('程序调用微信小程序得到openid,然后通过openID得到用户的唯一标识，用户得以登录，然而，当我们调用微信公众号也同样得到openid，同一用户两个不同的openid，不能区分是否为同一用户，然后发现无论调用微信小程序还是微信公众号同一个用户的到unionid是相同的，所以我们就用unionid来区分是否为同一用户。')
+        console.log('注释过多 还请见谅！ 非我本意')
+        </script>
+</body>
+
+</html>

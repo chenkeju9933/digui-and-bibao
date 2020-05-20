@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var jsonData = { "a": [{ "b": "c" }, "d"], "x": "1" };
+        function get(jsonData, params) {
+            let index = params.indexOf('[')
+            console.log(index);
+            if (index !== -1) {
+                let n = params.split('[')[0]
+                let sub = params.split('[')[1].split(']')[0]
+                let m = params.split('.')[1]
+                console.log(sub, n, m);
+                if (params.indexOf('.') === -1) {
+                    return jsonData[n][sub]  //two
+                } else {
+                    return jsonData[n][sub][m] //one
+                }
+            } else {
+                if (jsonData[params]) {
+                    return jsonData[params]  //three
+                }
+                return null //
+            }
+        }
+        var one = get(jsonData, 'a[0].b')
+        var two = get(jsonData, 'a[1]')
+        var three = get(jsonData, 'x')
+
+        console.log(one, two, three);
+        function sit(params) {
+            for (var index = 0; index < 5; index++) {
+                setTimeout(() => {
+                    console.log(index++)
+                }, 4000);
+                
+            }
+            console.log(index);
+        }
+        sit();
+    </script>
+</body>
+
+</html>

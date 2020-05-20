@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>indexOf去重</title>
+</head>
+
+<body>
+  <h2>数组去重</h2>
+  <hr>
+  <p>arr1 = [1,1,2,3,54,5,7,8,7,453,54,4,3,8]</p>
+  <span></span>
+  <script>
+    // var arr1 = [1, 1, 2, 3, 54, 5, 7, 8, 7, 453, 54, 4, 3, 8]
+
+    // function arrdet (arr1) {
+    //   var newArr = []
+    //   for (let i = 0; i < arr1.length; i++) {
+    //     if(newArr.indexOf(arr1[i]) == -1) {
+    //       newArr.push(arr1[i])
+    //     }
+    //   }
+      
+    // }
+    // arrdet(arr1)
+    // document.querySelectorAll('span')[0].innerHTML = arr1
+    var arr1 = [1, 1, 2, 3, 54, 5, 7, 8, 7, 453, 54, 4, 3, 8]
+    function find (a) {
+      var newArr = []
+      for (let i = 0; i < a.length; i++) {
+        if (newArr.indexOf(a[i]) === -1) {
+          newArr.push(a[i])
+        }
+        
+      }
+      document.querySelectorAll('span')[0].innerText = newArr
+    }
+    find(arr1)
+    
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // 每三个小时为一个周期 ， 第四个小时就 go die 了。
+    // 方法一
+    // 第一个小时，只有a态细胞；第二个小时，a态细胞分裂，原来的a态细胞变成了b态细胞，分裂出来的细胞变成了新的a态细胞；第三个小时，a态细胞继续分裂变成b态细胞和新的a态细胞，b态细胞分裂变成c态细胞和a态细胞；第四个小时，a、b、c态细胞都会分裂，并且按照之前的规律转变。得出下面的结论
+    // a 初始态 一个小时 前一个小时的 a+b+c
+    // b 幼年态 两个小时 前一个小时的 a
+    // c 成熟态 三个小时 前一个小时的 b
+    function allCell(n) {
+        // a态细胞
+        let aCell = function (n) {
+            if (n == 1) {
+                return 1;
+            } else {
+                return aCell(n - 1) + bCell(n - 1) + cCell(n - 1);
+            }
+        }
+        // b态细胞
+        let bCell = function (n) {
+            if (n == 1) {
+                return 0;
+            } else {
+                return aCell(n - 1);
+            }
+        }
+        // c态细胞
+        let cCell = function (n) {
+            if (n == 1 || n == 2) {
+                return 0;
+            } else {
+                return bCell(n - 1);
+            }
+        }
+        return aCell(n) + bCell(n) + cCell(n)
+    }
+    console.log(allCell(10))
+    // 方法二
+    // 这个方法就是分成了 活着的 和 死亡的
+    function cell(hour) {
+        // 活着的细胞
+        function livecell(hour) {
+            if (hour < 4) {
+                // 前三个小时没有死亡的细胞 成2的n-1次方增长
+                return Math.pow(2, hour - 1)
+            } else {
+                // 从第四个小时开始有死亡的细胞 
+                // 活着的细胞 = 前一个小时活着的细胞 - 这个小时死去的细胞
+                return livecell(hour - 1) * 2 - diecell(hour)
+            }
+        }
+        // 死亡的细胞
+        function diecell(hour) {
+            if (hour < 4) {
+                // 前三个小时没有死亡的细胞
+                return 0
+            } else {
+                // 因为三个小时一个周期
+                // 也就是每三个小时,(n-3)时的细胞就会死完
+                // 那么 这个小时(n)死去的细胞 + 上个小时(n-1)死去的细胞 + 前两个小时(n-2)死去的细胞 = 前三个小时(n-3)活着的细胞
+                return livecell(hour - 3) - diecell(hour - 1) - diecell(hour - 2)
+            }
+        }
+        return livecell(hour)
+    }
+    console.log(cell(10))
+    // 兔子
+    // 递归
+    let a = 0;
+    function tu(num) {
+        a++
+        if (num == 1 || num == 2) {
+            return 1
+        }
+        let nums = tu(num - 1) + tu(num - 2)
+        return nums
+    }
+    console.log(tu(8), a)
+    // 闭包解决
+    // 也就是存在数组中，再次循环时，如果数组中已经存在，就返回数组中的值，大大减少了递归调用函数的次数
+    var count2 = 0;
+    var fiba = (function () {
+        var arr = [0, 1, 1];   //第0位只是占位，从第一位开始算起
+        return function (n) {
+            count2++;
+            var res = arr[n];
+            if (res) {// 如果arr中存在，返回这个值
+                console.log(res, '----')
+                return res;
+            } else {
+                console.log(arr[n], '+++++')
+                arr[n] = fiba(n - 1) + fiba(n - 2);
+                return arr[n];
+            }
+        }
+    })();
+    console.log(fiba(8), count2)
+    // 普通
+    // 普通循环解决这个问题是性能最好的。
+    let a = 1;
+    let b = 1
+    let c;
+    function tu(num) {
+        for (let i = 0; i < num - 2; i++) {
+            c = a + b;
+            a = b;
+            b = c
+        }
+        return c;
+    }
+    console.log(tu(8))
+    // 64格子
+    let sum = 0
+    let start = 1;
+    let end = 0;
+    function tow() {
+        if (end >= 64) {
+            return false
+        }
+        sum += start
+        start *= 2
+        end++
+        tow()
+    }
+    tow()
+    console.log(sum)
+    // 使用递归实现数组快速排序方法 这个问题的核心思想是 取中间值，然大的放一边，小的放一边，然后再对两边执行一样的操作，也就是递归了。
+    var mysort = function (arr) {
+        // 结束条件
+        if (arr.length <= 1) {
+            return arr
+        }
+        // 找基准值 数组中间值
+        // 求下标
+        var center = Math.floor(arr.length / 2)
+        var jZ = arr.splice(center, 1)[0]
+        // 创建两个空数组
+        var left = [], right = [];
+        // 循环数组，并进行比较
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i] < jZ) {
+                left.push(arr[i])
+            } else {
+                right.push(arr[i])
+            }
+        }
+        return mysort(left).concat([jZ], mysort(right))
+    }
+    console.log(mysort([1, 6, 4, 3, 7, 8, 9]))
+    // 九九乘法表
+    // 递归
+    function num(nums) {
+        if (nums == 1) {
+            console.log("1x1=1")
+        } else {
+            num(nums - 1)
+            for (var i = 1, str = ''; i <= nums; i++) {
+                str += `${i}x${nums}=` + i * nums + ' '
+            }
+            console.log(str)
+        }
+    }
+    num(9)
+    // 循环
+    for (var i = 1; i < 10; i++) {
+        let str = ''
+        for (var j = 1; j < 10; j++) {
+            if (i >= j) {
+                str += `${j}x${i}=` + i * j + ' '
+            }
+        }
+        console.log(str)
+    }
+</script>
+
+</html>

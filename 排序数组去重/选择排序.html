@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选择排序</title>
+</head>
+
+<body>
+    <h2>选择排序</h2>
+    <p>srcArray = [1, 3, 5, 56, 6, 1000, 87, 9]</p>
+    <span></span>
+    <hr>
+    <!-- <script>
+        let srcArray = [1,3,5,56,6,1000,87,9]
+        function xuanze (array) {
+            let minindex,temp
+            for (let i = 0; i < array.length-1; i++) {
+                minindex = i
+                for (let j = i+1; j < array.length; j++) {
+                    if(array[j] < array[minindex]){
+                        minindex = j
+                    }
+                    
+                }
+                temp = array[i]
+                array[i] = array[minindex]
+                array[minindex] = temp
+            }
+            document.querySelectorAll('span')[0].innerText = array
+        }
+        xuanze(srcArray)
+        console.log(srcArray);
+        
+    </script> -->
+    <script>
+        let srcArray = [1,3,5,56,6,1000,87,9]
+        function xuanze(array) {
+            // 选择排序  
+            for (let i = 0; i < array.length; i++) {
+                let minIndex = 0;
+                let minTemp = Number.MAX_VALUE;
+                for (let j = i; j < array.length; j++) {
+                    if (array[j] < minTemp) {
+                        // 记录最小下标
+                        minIndex = j;
+                        minTemp = array[j];
+                    }
+                }
+
+                // 交换最小值
+                let temp = array[i];
+                array[i] = minTemp;
+                array[minIndex] = temp;
+            }
+            console.log('====================================');
+            console.log(array);
+            console.log('====================================');
+        }
+        xuanze(srcArray)
+        document.querySelectorAll('span')[0].innerText = srcArray
+    </script>
+</body>
+
+</html>
